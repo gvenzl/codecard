@@ -20,6 +20,7 @@
 #include <Fonts/FreeMonoBold18pt7b.h>  // Adafruit GFX graphics core library - https://github.com/adafruit/Adafruit-GFX-Library
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeMono9pt7b.h>
 
 #define WAKE_PIN 16
 #define BAUD_SPEED 115200
@@ -34,6 +35,23 @@ bool btnBOn = false;
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 
+void printName()
+{
+  Serial.println("Printing name");
+  printNameTemplate("Gerald Venzl", "Master Product Manager", "Oracle Corporation");
+}
+
+void printSession()
+{
+  Serial.println("Printing Session...");
+  printSessionTemplate("Monday June 24 - 11:00AM", "Room 620, Level 6", "Decrypting the", "Tech Hype", "for the Busy Coder");
+}
+
+void printContact()
+{
+  
+}
+
 void initDisplay()
 {
   display.init(BAUD_SPEED);
@@ -41,21 +59,6 @@ void initDisplay()
   display.fillScreen(GxEPD_WHITE);
   display.setTextColor(GxEPD_BLACK);
   display.setFullWindow();
-}
-
-void printName()
-{
-  printNameTemplate("Gerald Venzl", "Master Product Manager", "Oracle Corporation");
-}
-
-void printSession()
-{
-  printSessionTemplate("Tuesday, 9:00am", "Session room 1", "Emerging Tech for", "the Busy Coder");
-}
-
-void printContact()
-{
-  
 }
 
 void printNameTemplate(String name, String title, String company)
@@ -103,15 +106,16 @@ void printSessionTemplate(String time, String room, String title, String titleLi
   {
     display.setFont(&FreeMonoBold12pt7b);
     display.getTextBounds(title, 0, 0, &tbx, &tby, &tbw, &tbh);
-    // X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
-    // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-    // 20 + is done to gain some more padding from the top
+    /* X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
+     * X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+     * 20 + is done to gain some more padding from the top
+    */
     display.setCursor(tbx, tbh);
     display.println(title);
     if (titleLine2 != "") { display.println(titleLine2); }
     if (titleLine3 != "") { display.println(titleLine3); }
     display.println();
-    display.setFont(&FreeMonoBold9pt7b);
+    display.setFont(&FreeMono9pt7b);
     display.println(time);
     display.println();
     display.println(room);
