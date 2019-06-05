@@ -17,35 +17,35 @@ The following instruction describes the setup and configuration of the Arduino I
 2. Install the serial driver for the ESP-12F Wi-Fi chip: https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
 3. In the Arduino IDE, go to Preferences and set the "Additional Board Managers" URLs to http://arduino.esp8266.com/stable/package_esp8266com_index.json
 4. Install esp8266 support: Tools | Board | Board Manager
-   - esp8266 by ESP8266 Community 2.4.2
+    - esp8266 by ESP8266 Community 2.4.2
 5. Install the required modules: Sketch | Include Libraries | Manage Libraries
-   - GxEPD2 by Jean-Marc Zingg version 1.1.0
-   - Adafruit GFX Library by Adafruit 1.4.8
+    - GxEPD2 by Jean-Marc Zingg version 1.1.0
+    - Adafruit GFX Library by Adafruit 1.4.8
 6. Under Tools set the following settings:
-   - Board: "Generic ESP8266 Module"
-   - Upload Speed "115200"
-   - CPU Frequency: "80 MHz"
-   - Crystal Frequency: "26 MHz"
-   - Flash Size: "4M (3M SPIFFS)"
-   - Flash Mode: "DIO"
-   - Flash Frequency: "40MHz"
-   - Reset Method: "nodemcu"
-   - Debug port: "Disabled"
-   - Debug Level: "None"
-   - IwIP Variant: "v2 Lower Memory"
-   - VTables: "Flash"
-   - Exceptions: "Disabled"
-   - Builtin Led: "2"
-   - Erase Flash: "Only Sketch"
-   - Espressif FW: "nonos-sdk 2.2.1 (legacy)"
-   - SSL support: "All SSL chipers (most compatible)"
-   - Port: "Serial port /dev/cu.SLAB_USBtoUART" (will be selected automatically)
-   - Programmer: "ArduinoISP"
+    - Board: "Generic ESP8266 Module"
+    - Upload Speed "115200"
+    - CPU Frequency: "80 MHz"
+    - Crystal Frequency: "26 MHz"
+    - Flash Size: "4M (3M SPIFFS)"
+    - Flash Mode: "DIO"
+    - Flash Frequency: "40MHz"
+    - Reset Method: "nodemcu"
+    - Debug port: "Disabled"
+    - Debug Level: "None"
+    - IwIP Variant: "v2 Lower Memory"
+    - VTables: "Flash"
+    - Exceptions: "Disabled"
+    - Builtin Led: "2"
+    - Erase Flash: "Only Sketch"
+    - Espressif FW: "nonos-sdk 2.2.1 (legacy)"
+    - SSL support: "All SSL chipers (most compatible)"
+    - Port: "Serial port /dev/cu.SLAB_USBtoUART" (will be selected automatically)
+    - Programmer: "ArduinoISP"
 7.  Open the speakerbadge.ino sketch
-   - File | Open | codecard.ino
+    - File | Open | codecard.ino
 8. Connect the CodeCard via USB to your computer
 9. Establish serial connection via Arduino IDE:
-   - Tools | Serial Monitor
+    - Tools | Serial Monitor
 10. Turn on the Code Card
 11. From the Arduino IDE choose Sketch | Upload
     - The Arduino IDE may compile the skectch before uploading to the Code Card.
