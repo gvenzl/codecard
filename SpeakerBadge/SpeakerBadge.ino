@@ -22,6 +22,8 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMono9pt7b.h>
 
+#include "icons.h"
+
 #define WAKE_PIN 16
 #define BAUD_SPEED 115200
 #define PRINT_LANDSCAPE 3
@@ -30,8 +32,8 @@
 #define BUTTONA_PIN 10   // 10
 #define BUTTONB_PIN 12   // 12
 
-bool btnAOn = false;
-bool btnBOn = false;
+bool btnAOn = true;
+bool btnBOn = true;
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 
@@ -50,6 +52,18 @@ void printSession()
 void printContact()
 {
   
+}
+
+void printHeadShot()
+{
+  display.firstPage();
+  
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+    display.drawInvertedBitmap(0, 0, headShot, display.width(), display.height(), GxEPD_BLACK);
+  }
+  while (display.nextPage());
 }
 
 void initDisplay()
@@ -192,7 +206,7 @@ void setup()
   delay(100);
   initDisplay();
 
-  printName();
+  printHeadShot();
   
   Serial.println("Setup done");
 }
