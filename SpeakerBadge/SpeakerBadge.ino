@@ -24,16 +24,21 @@
 
 #include "icons.h"
 
+// Wake pin (keeps chip running)
 #define WAKE_PIN 16
-#define BAUD_SPEED 115200
-#define PRINT_LANDSCAPE 3
 
 // Button pins
 #define BUTTONA_PIN 10   // 10
 #define BUTTONB_PIN 12   // 12
+bool btnAOn = true;  // Set to true to print name first
+bool btnBOn = false; // Set to false to print session first
 
-bool btnAOn = true;
-bool btnBOn = true;
+// Baud speed
+#define BAUD_SPEED 115200
+#define PRINT_LANDSCAPE 3
+
+int16_t tbx, tby;
+uint16_t tbw, tbh;
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 
@@ -49,9 +54,43 @@ void printSession()
   printSessionTemplate("Monday June 24 - 11:00AM", "Room 620, Level 6", "Decrypting the", "Tech Hype", "for the Busy Coder");
 }
 
-void printContact()
+void printContact(String twitterHandle, String blogURL, String youtubeChannel)
 {
+  Serial.println("Printing contact...");
+
+  display.firstPage();
   
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+
+    // Print Twitter icon
+    display.drawInvertedBitmap(0, 0, twitter, 61, 50, GxEPD_BLACK);
+
+    // Put handle next to icon
+    display.setFont(&FreeMonoBold12pt7b);
+    display.getTextBounds(twitterHandle, 61, 50, &tbx, &tby, &tbw, &tbh);
+    // X, Y = 61, 50 is where the twitter handle has been printed
+    // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+    // 10 + is done to gain some more padding from the top
+    display.setCursor(tbx, tby);
+    display.println(twitterHandle);
+
+    // Print Blog icon
+    display.drawInvertedBitmap(0, 55, blog, 60, 60, GxEPD_BLACK);
+
+    // Put blog URL next to icon
+    display.setFont(&FreeMonoBold12pt7b);
+    display.getTextBounds(blogURL, 60, 110, &tbx, &tby, &tbw, &tbh);
+    // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
+    // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+    // 20 + is done to gain some more padding from the top
+    display.setCursor(tbx, tby);
+    display.println(blogURL);
+  }
+  while (display.nextPage());
+
+  display.powerOff();
 }
 
 void printHeadShot()
@@ -64,6 +103,8 @@ void printHeadShot()
     display.drawInvertedBitmap(0, 0, headShot, display.width(), display.height(), GxEPD_BLACK);
   }
   while (display.nextPage());
+  
+  display.powerOff();
 }
 
 void initDisplay()
@@ -76,16 +117,14 @@ void initDisplay()
 }
 
 void printNameTemplate(String name, String title, String company)
-{  
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  
+{ 
   display.firstPage();
   do
   {
     display.setFont(&FreeMonoBold18pt7b);
     display.getTextBounds(name, 0, 0, &tbx, &tby, &tbw, &tbh);
-    // X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
-    // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+    // X, Y = 0, 0 is the top left corner (given that the display has been already rotated).
+    // X is set to 1 (beginning pixles of the text), Y is set to the height of the text as the pixels are printed from the bottom up, not top down
     // 20 + is done to gain some more padding from the top
     display.setCursor(tbx, 20 + tbh);
     display.println(name);
@@ -178,7 +217,7 @@ void checkButtonB()
     // Button B has been switched on, print contact details
     if (!btnBOn)
     {
-      printContact();
+      printContact("@GeraldVenzl", "geraldonit.com", "OracleDevs");
       btnBOn = true;
     }
     // Button has been switched off, print name.
