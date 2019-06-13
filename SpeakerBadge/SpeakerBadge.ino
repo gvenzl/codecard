@@ -192,21 +192,27 @@ void checkButtonB()
 
 void setup()
 {
+  // Set the wake pin to HIGH to keep the chip enabled.
+  // Otherwise any button press will call setup again.
   pinMode(WAKE_PIN, OUTPUT);
-  digitalWrite(WAKE_PIN, HIGH); //immediately set wake pin to HIGH to keep the chip enabled
+  digitalWrite(WAKE_PIN, HIGH);
 
-  // Specify both buttons as input --> PULLUP effectively inverts the behavior of the INPUT mode, where HIGH means the sensor is off, and LOW means the sensor is on.
-  pinMode(BUTTONA_PIN, INPUT_PULLUP);
-  pinMode(BUTTONB_PIN, INPUT_PULLUP);
-  delay(100);
-  
+  // Initialize Serial
   Serial.begin(BAUD_SPEED);
   Serial.println();
   Serial.println("Setup...");
-  delay(100);
+  
+  // Initialize Display
   initDisplay();
 
+  // Print headshot as setup / standby picture
   printHeadShot();
+
+  // The display class is setting pin 12 as output (theory).
+  // The pinMode for input has to be set AFTER the display.init() has been called.
+  // Specify both buttons as input --> PULLUP effectively inverts the behavior of the INPUT mode, where HIGH means the sensor is off, and LOW means the sensor is on.
+  pinMode(BUTTONA_PIN, INPUT_PULLUP);
+  pinMode(BUTTONB_PIN, INPUT_PULLUP);
   
   Serial.println("Setup done");
 }
