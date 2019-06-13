@@ -31,7 +31,6 @@
 #define BUTTONA_PIN 10   // 10
 #define BUTTONB_PIN 12   // 12
 bool btnAOn = true;  // Set to true to print name first
-bool btnBOn = false; // Set to false to print session first
 
 // Baud speed
 #define BAUD_SPEED 115200
@@ -64,29 +63,47 @@ void printContact(String twitterHandle, String blogURL, String youtubeChannel)
   {
     display.fillScreen(GxEPD_WHITE);
 
-    // Print Twitter icon
-    display.drawInvertedBitmap(0, 0, twitter, 61, 50, GxEPD_BLACK);
+    if (twitterHandle != "") {
+      // Print Twitter icon
+      display.drawInvertedBitmap(0, 0, twitter, 61, 50, GxEPD_BLACK);
 
-    // Put handle next to icon
-    display.setFont(&FreeMonoBold12pt7b);
-    display.getTextBounds(twitterHandle, 61, 50, &tbx, &tby, &tbw, &tbh);
-    // X, Y = 61, 50 is where the twitter handle has been printed
-    // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-    // 10 + is done to gain some more padding from the top
-    display.setCursor(tbx, tby);
-    display.println(twitterHandle);
+      // Put handle next to icon
+      display.setFont(&FreeMonoBold12pt7b);
+      display.getTextBounds(twitterHandle, 65, 50, &tbx, &tby, &tbw, &tbh);
+      // X, Y = 61, 50 is where the twitter handle has been printed
+      // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+      // 10 + is done to gain some more padding from the top
+      display.setCursor(tbx, tby);
+      display.println(twitterHandle);
+    }
 
-    // Print Blog icon
-    display.drawInvertedBitmap(0, 55, blog, 60, 60, GxEPD_BLACK);
+    if (blogURL != "") {
+      // Print Blog icon
+      display.drawInvertedBitmap(0, 55, blog, 60, 60, GxEPD_BLACK);
 
-    // Put blog URL next to icon
-    display.setFont(&FreeMonoBold12pt7b);
-    display.getTextBounds(blogURL, 60, 110, &tbx, &tby, &tbw, &tbh);
-    // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
-    // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-    // 20 + is done to gain some more padding from the top
-    display.setCursor(tbx, tby);
-    display.println(blogURL);
+      // Put blog URL next to icon
+      display.setFont(&FreeMonoBold12pt7b);
+      display.getTextBounds(blogURL, 65, 110, &tbx, &tby, &tbw, &tbh);
+      // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
+      // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+      // 20 + is done to gain some more padding from the top
+      display.setCursor(tbx, tby);
+      display.println(blogURL);
+    }
+
+    if (youtubeChannel != "") {
+      // Print Youtube icon icon
+      display.drawInvertedBitmap(0, 120, youtube, 64, 64, GxEPD_BLACK);
+
+      // Put youtube URL next to icon
+      display.setFont(&FreeMonoBold12pt7b);
+      display.getTextBounds(youtubeChannel, 65, 174, &tbx, &tby, &tbw, &tbh);
+      // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
+      // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+      // 20 + is done to gain some more padding from the top
+      display.setCursor(tbx, tby);
+      display.println(youtubeChannel);
+    }
   }
   while (display.nextPage());
 
@@ -214,18 +231,7 @@ void checkButtonB()
   if (digitalRead(BUTTONB_PIN) == HIGH)
   {
     Serial.println("State of Button B has changed!");
-    // Button B has been switched on, print contact details
-    if (!btnBOn)
-    {
-      printContact("@GeraldVenzl", "geraldonit.com", "OracleDevs");
-      btnBOn = true;
-    }
-    // Button has been switched off, print name.
-    else
-    {
-      printName();
-      btnBOn = false;
-    }
+    printContact("@GeraldVenzl", "geraldonit.com", "OracleDevs");
   }
 }
 
