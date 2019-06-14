@@ -1,5 +1,5 @@
 /*
- * File: config.h
+ * File: print.h
  * 
  * Copyright (c) 2019 Gerald Venzl
  *
@@ -16,18 +16,21 @@
  * limitations under the License.
  */
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef PRINT_H
+#define PRINT_H
 
-// Wake pin (keeps chip running)
-#define WAKE_PIN 16
+#include <Arduino.h>
 
-// Button pins
-#define BUTTONA_PIN 10   // 10
-#define BUTTONB_PIN 12   // 12
+// Prints the name
+void printName();
 
-// Baud speed
-#define BAUD_SPEED 115200
-#define PRINT_LANDSCAPE 3
+// Prints the session information
+void printSession();
+
+// Prints the contact information
+void printContact(String twitterHandle, String blogURL, String youtubeChannel);
+
+// Prints the headShot
+void printHeadShot();
 
 #endif
