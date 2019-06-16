@@ -22,9 +22,13 @@
 
 #include "config.h"
 #include "print.h"
+#include "cli.h"
+#include "speaker.h"
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 bool btnAOn = true;  // Set to true to print name first
+CLI cli = CLI();
+Speaker speaker = Speaker();
 
 void initDisplay()
 {
@@ -35,32 +39,22 @@ void initDisplay()
   display.setFullWindow();
 }
 
-void checkSerialInput()
-{
-  if (Serial.available() > 0) {
-      String input = Serial.readString();
-      input.trim();
-      Serial.println("Received: " + input);
-      // TODO implement
-    }
-}
-
 void checkButtonA()
 {
   if (digitalRead(BUTTONA_PIN) == HIGH)
   {
-    Serial.println("State of Button A has changed!");
+    Serial.println(F("State of Button A has changed!"));
     // Button A has been switched on, print session details.
     if (!btnAOn)
     {
-      Serial.println("Printing Session...");
+      Serial.println(F("Printing Session..."));
       printSession();
       btnAOn = true;
     }
     // Button has been switched off, print name.
     else
     {
-      Serial.println("Printing name");
+      Serial.println(F("Printing name"));
       printName();
       btnAOn = false;
     }
@@ -71,9 +65,9 @@ void checkButtonB()
 {
   if (digitalRead(BUTTONB_PIN) == HIGH)
   {
-    Serial.println("State of Button B has changed!");
-    Serial.println("Printing contact...");
-    printContact("@GeraldVenzl", "geraldonit.com", "OracleDevs");
+    Serial.println(F("State of Button B has changed!"));
+    Serial.println(F("Printing contact..."));
+    printContact();
   }
 }
 
@@ -87,13 +81,13 @@ void setup()
   // Initialize Serial
   Serial.begin(BAUD_SPEED);
   Serial.println();
-  Serial.println("Setup...");
+  Serial.println(F("Setup..."));
   
   // Initialize Display
   initDisplay();
 
   // Print headshot as setup / standby picture
-  Serial.println("Printing headshot...");
+  Serial.println(F("Printing headshot..."));
   printHeadShot();
 
   // The display class is setting pin 12 as output (theory).
@@ -102,14 +96,18 @@ void setup()
   pinMode(BUTTONA_PIN, INPUT_PULLUP);
   pinMode(BUTTONB_PIN, INPUT_PULLUP);
   
-  Serial.println("Setup done");
+  Serial.println(F("Setup done"));
+  Serial.println();
+  Serial.println(F("Welcome to Code Card - by Gerald Venzl"));
+  
+  cli.printHelp();
 }
 
 void loop()
 {
-    checkSerialInput();
-    checkButtonA();
-    checkButtonB();
-    // sleep for 100ms
-    delay(100);
+  checkButtonA();
+  checkButtonB();
+  cli.read();
+  // sleep for 100ms
+  delay(100);
 }

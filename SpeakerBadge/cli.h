@@ -1,5 +1,5 @@
 /*
- * File: print.h
+ * File: cli.h
  * 
  * Copyright (c) 2019 Gerald Venzl
  *
@@ -16,21 +16,35 @@
  * limitations under the License.
  */
 
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef CLI_H
+#define CLI_H
 
 #include <Arduino.h>
 
-// Prints the name
-void printName();
+class CLI
+{
+  private:
+    enum SpeakerInput
+    {
+      READ,
+      NAME,
+      TITLE,
+      COMPANY,
+      TWITTER,
+      BLOG,
+      YOUTUBE
+    };
 
-// Prints the session information
-void printSession();
+    SpeakerInput speakerInput = READ;
+    
+    void validateInput(String input);
+    void addSession();
+    void deleteSession();
+    void storeSpeaker(String input);
 
-// Prints the contact information
-void printContact();
-
-// Prints the headShot
-void printHeadShot();
+  public:
+    void read();
+    void printHelp();
+};
 
 #endif
