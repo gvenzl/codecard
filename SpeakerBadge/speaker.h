@@ -23,7 +23,7 @@
 
 class Speaker
 {
-  private:
+  protected:
     String name;
     String title;
     String company;
