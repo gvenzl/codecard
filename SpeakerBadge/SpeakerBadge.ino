@@ -31,6 +31,7 @@ CLI cli = CLI();
 Speaker speaker = Speaker();
 Talks talks = Talks();
 int btnAState = talks.getTalkCount(); // Print name first, then talks, hence set button state to last talk
+int btnBOn = true;
 
 void initDisplay()
 {
@@ -68,8 +69,19 @@ void checkButtonB()
   if (digitalRead(BUTTONB_PIN) == HIGH)
   {
     Serial.println(F("State of Button B has changed!"));
-    Serial.println(F("Printing contact..."));
-    printContact();
+
+    if (btnBOn)
+    {
+      Serial.println(F("Printing contact..."));
+      printContact();
+      btnBOn = false;
+    }
+    else
+    {
+      Serial.println(F("Printing headshot..."));
+      printHeadShot();
+      btnBOn = true;
+    }
   }
 }
 
