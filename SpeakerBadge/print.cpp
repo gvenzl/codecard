@@ -27,6 +27,7 @@
 
 #include "icons.h"
 #include "speaker.h"
+#include "talks.h"
 
 int16_t tbx, tby;
 uint16_t tbw, tbh;
@@ -66,7 +67,7 @@ void printName()
 /************************************** SESSION PRINT ***************************************/
 /********************************************************************************************/
 
-void printSessionTemplate(String time, String room, String title, String titleLine2, String titleLine3)
+void printTalk(Talks::Talk &talk)
 {
   int16_t tbx, tby; uint16_t tbw, tbh;
   
@@ -74,20 +75,20 @@ void printSessionTemplate(String time, String room, String title, String titleLi
   do
   {
     display.setFont(&FreeMonoBold12pt7b);
-    display.getTextBounds(title, 0, 0, &tbx, &tby, &tbw, &tbh);
+    display.getTextBounds(talk.getTitle(), 0, 0, &tbx, &tby, &tbw, &tbh);
     /* X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
      * X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
      * 20 + is done to gain some more padding from the top
     */
     display.setCursor(tbx, tbh);
-    display.println(title);
-    if (titleLine2 != "") { display.println(titleLine2); }
-    if (titleLine3 != "") { display.println(titleLine3); }
+    display.println(talk.getTitle());
+    if (talk.getTitleLine2() != "") { display.println(talk.getTitleLine2()); }
+    if (talk.getTitleLine3() != "") { display.println(talk.getTitleLine3()); }
     display.println();
     display.setFont(&FreeMono9pt7b);
-    display.println(time);
+    display.println(talk.getTime());
     display.println();
-    display.println(room);
+    display.println(talk.getLocation());
     
   }
   while (display.nextPage());
@@ -95,20 +96,12 @@ void printSessionTemplate(String time, String room, String title, String titleLi
   display.powerOff();
 }
 
-void printSessionTemplate(String time, String room, String title, String titleLine2)
-{
-  printSessionTemplate(time, room, title, titleLine2, "");
-}
-
-void printSessionTemplate(String time, String room, String title)
-{
-  printSessionTemplate(time, room, title, "", "");
-}
-
+/*
 void printSession()
 {
   printSessionTemplate("Monday June 24 - 11:00AM", "Room 620, Level 6", "Decrypting the", "Tech Hype", "for the Busy Coder");
 }
+*/
 
 /********************************************************************************************/
 /************************************** CONTACT PRINT ***************************************/

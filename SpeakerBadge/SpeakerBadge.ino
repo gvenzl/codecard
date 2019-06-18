@@ -24,11 +24,13 @@
 #include "print.h"
 #include "cli.h"
 #include "speaker.h"
+#include "talks.h"
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
-bool btnAOn = true;  // Set to true to print name first
 CLI cli = CLI();
 Speaker speaker = Speaker();
+Talks talks = Talks();
+int btnAState = talks.getTalkCount(); // Print name first, then talks, hence set button state to last talk
 
 void initDisplay()
 {
@@ -44,19 +46,19 @@ void checkButtonA()
   if (digitalRead(BUTTONA_PIN) == HIGH)
   {
     Serial.println(F("State of Button A has changed!"));
-    // Button A has been switched on, print session details.
-    if (!btnAOn)
-    {
-      Serial.println(F("Printing Session..."));
-      printSession();
-      btnAOn = true;
-    }
-    // Button has been switched off, print name.
-    else
+
+    if (btnAState == talks.getTalkCount())
     {
       Serial.println(F("Printing name"));
       printName();
-      btnAOn = false;
+      btnAState=0;
+    }
+    else
+    {
+      Serial.println(F("Printing Session..."));
+      Talks::Talk talk = talks.getNextTalk();
+      printTalk(talk);
+      btnAState++;
     }
   }
 }

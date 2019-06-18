@@ -28,6 +28,11 @@
 
 // Baud speed
 #define BAUD_SPEED 115200
+
+// Display orientation
 #define PRINT_LANDSCAPE 3
+
+// How many talks to support
+#define MAX_TALKS 3
 
 #endif

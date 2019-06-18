@@ -24,7 +24,7 @@
 class CLI
 {
   private:
-    enum SpeakerInput
+    enum class SpeakerInput
     {
       READ,
       NAME,
@@ -35,11 +35,23 @@ class CLI
       YOUTUBE
     };
 
-    SpeakerInput speakerInput = READ;
+    SpeakerInput speakerInput = SpeakerInput::READ;
+
+    enum class TalkInput
+    {
+      READ,
+      TITLE,
+      TITLELINE2,
+      TITLELINE3,
+      TIME,
+      LOCATION
+    };
+
+    TalkInput talkInput = TalkInput::READ;
     
     void validateInput(String input);
-    void addSession();
-    void deleteSession();
+    void addTalk(String input);
+    void deleteTalk(String input);
     void storeSpeaker(String input);
 
   public:

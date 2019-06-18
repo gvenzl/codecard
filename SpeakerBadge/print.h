@@ -21,11 +21,13 @@
 
 #include <Arduino.h>
 
+#include "talks.h"
+
 // Prints the name
 void printName();
 
 // Prints the session information
-void printSession();
+void printTalk(Talks::Talk &talk);
 
 // Prints the contact information
 void printContact();

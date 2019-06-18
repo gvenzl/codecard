@@ -21,8 +21,13 @@
 #include <Arduino.h>
 
 #include "speaker.h"
+#include "talks.h"
 
 extern Speaker speaker;
+extern Talks talks;
+extern int btnAState;
+
+Talks::Talk talk;
 
 void CLI::read()
 {
@@ -37,9 +42,9 @@ void CLI::read()
 void CLI::validateInput(String input)
 {
   if      (input == "help")    { printHelp(); }
-  else if ( speakerInput != READ || input == "speaker") { storeSpeaker(input);  }
-  else if (input == "sessadd") { addSession(); }
-  else if (input == "sessdel") { deleteSession(); }
+  else if (speakerInput != SpeakerInput::READ || input == "speaker") { storeSpeaker(input);  }
+  else if (talkInput != TalkInput::READ || input == "talkadd") { addTalk(input); }
+  else if (input == "talkdel") { deleteTalk(input); }
   else
   {
     Serial.println("'" + input + "' is not a valid command.");
@@ -52,77 +57,142 @@ void CLI::printHelp()
   Serial.println(F("Commands:"));
   Serial.println(F("  help       Shows this help"));
   Serial.println(F("  speaker    Adds a new speakers"));
-  Serial.println(F("  sessadd    Adds a new session to the card"));
-  Serial.println(F("  sessdel    Deletes one or all sessions"));
+  Serial.println(F("  talkadd    Adds a new talk to the card"));
+  Serial.println(F("  talkdel    Deletes one or all talks"));
   Serial.println();
 }
 
-void CLI::addSession()
+void CLI::addTalk(String input)
 {
-  
+  switch(talkInput)
+  {
+    case TalkInput::READ:
+    {
+      // If all talks are used up, cancel
+      if (!talks.hasFreeTalkSlot())
+      {
+        Serial.println(F("You cannot add any more talks. Please delete one/all and retry."));
+        talkInput = TalkInput::READ;
+        break;
+      }
+      
+      talk = Talks::Talk();
+      Serial.println(F("Please enter the title of your talk:"));
+      talkInput = TalkInput::TITLE;
+      break;
+    }
+    case TalkInput::TITLE:
+    {
+      talk.setTitle(input);
+      Serial.println(F("Please add the second line, if any:"));
+      talkInput = TalkInput::TITLELINE2;
+      break;
+    }
+    case TalkInput::TITLELINE2:
+    {
+      talk.setTitleLine2(input);
+      Serial.println(F("Please add the third line, if any:"));
+      talkInput = TalkInput::TITLELINE3;
+      break;
+    }
+    case TalkInput::TITLELINE3:
+    {
+      talk.setTitleLine3(input);
+      Serial.println(F("Please add the date/time of your talk:"));
+      talkInput = TalkInput::TIME;
+      break;
+    }
+    case TalkInput::TIME:
+    {
+      talk.setTime(input);
+      Serial.println(F("Please add the location of your talk:"));
+      talkInput = TalkInput::LOCATION;
+      break;
+    }
+    case TalkInput::LOCATION:
+    {
+      talk.setLocation(input);
+      talks.addTalk(talk);
+      Serial.println(F("Talk details saved"));
+      
+      // Reset button A state and talks index to sync
+      btnAState = talks.getNextTalkIndex();
+      
+      talkInput = TalkInput::READ;
+      break;
+    }
+    default:
+    {
+      speakerInput = SpeakerInput::READ;
+      break;
+    }
+  }
 }
 
-void CLI::deleteSession()
+void CLI::deleteTalk(String input)
 {
+  Serial.println(F("Deleting all talks"));
+  talks.deleteAllTalks();
   
+  btnAState = talks.getTalkCount();
 }
 
 void CLI::storeSpeaker(String input)
 {
   switch(speakerInput)
   {
-    case READ:
-    {
+    case SpeakerInput::READ:
+    { 
       Serial.println(F("Please enter your name:"));
-      speakerInput = NAME;
+      speakerInput = SpeakerInput::NAME;
       break;
     }
-    case NAME:
+    case SpeakerInput::NAME:
     {
       speaker.setName(input);
       Serial.println(F("Please enter your title:"));
-      speakerInput = TITLE;
+      speakerInput = SpeakerInput::TITLE;
       break;
     }
-    case TITLE:
+    case SpeakerInput::TITLE:
     {
       speaker.setTitle(input);
       Serial.println(F("Please enter your company:"));
-      speakerInput = COMPANY;
+      speakerInput = SpeakerInput::COMPANY;
       break;
     }
-    case COMPANY:
+    case SpeakerInput::COMPANY:
     {
       speaker.setCompany(input);
       Serial.println(F("Please enter your Twitter handle:"));
-      speakerInput = TWITTER;
+      speakerInput = SpeakerInput::TWITTER;
       break;
     }
-    case TWITTER:
+    case SpeakerInput::TWITTER:
     {
       speaker.setTwitterHandle(input);
       Serial.println(F("Please enter your Blog URL:"));
-      speakerInput = BLOG;
+      speakerInput = SpeakerInput::BLOG;
       break;
     }
-    case BLOG:
+    case SpeakerInput::BLOG:
     {
       speaker.setBlogUrl(input);
       Serial.println(F("Please enter your YouTube channel:"));
-      speakerInput = YOUTUBE;
+      speakerInput = SpeakerInput::YOUTUBE;
       break;
     }
-    case YOUTUBE:
+    case SpeakerInput::YOUTUBE:
     {
       speaker.setYoutubeChannel(input);
       // Store speaker object
       Serial.println(F("Speaker details saved."));
-      speakerInput = READ;
+      speakerInput = SpeakerInput::READ;
       break;
     }
     default:
     {
-      speakerInput = READ;
+      speakerInput = SpeakerInput::READ;
       break;
     }
   }
