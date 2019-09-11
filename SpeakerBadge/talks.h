@@ -36,6 +36,8 @@ class Talks
         String location;
 
       public:
+        Talk();
+        Talk(String title, String titleLine2, String titleLine3, String time, String location);
         void setTitle(String title);
         void setTitleLine2(String titleLine2);
         void setTitleLine3(String titleLine3);

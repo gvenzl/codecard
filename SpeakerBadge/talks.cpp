@@ -22,15 +22,28 @@
 
 Talks::Talks()
 {
-  Talk talk = Talk();
-  
-  talk.setTitle("Decrypting the");
-  talk.setTitleLine2("Tech Hype");
-  talk.setTitleLine3("for the Busy Coder");
-  talk.setTime("Monday June 24 - 11:00AM");
-  talk.setLocation("Room 620, Level 6");
-  
+  Talk talk = Talk("Cloud-Native", "Data Management","", "Tuesday 17 Sept - 11:30", "Moscone South - Room 301");
   addTalk(talk);
+
+  talk = Talk("Code One", "Keynote", "", "Tuesday 17 Sept - 14:30", "Moscone North - Hall F");
+  addTalk(talk);
+
+  talk = Talk("Code One", "Community Keynote:", "Game On!", "Wed 18 Sept - 09:00", "Moscone North - Hall F");
+  addTalk(talk);
+}
+
+Talks::Talk::Talk()
+{
+  
+}
+
+Talks::Talk::Talk(String title, String titleLine2, String titleLine3, String time, String location)
+{
+  this->title = title;
+  this->titleLine2 = titleLine2;
+  this->titleLine3 = titleLine3;
+  this->time= time;
+  this->location = location;
 }
 
 void Talks::Talk::setTitle(String title)
@@ -129,7 +142,7 @@ int Talks::getNextTalkIndex()
 
 bool Talks::deleteAllTalks()
 {
-  for(int i=0; i<this->talkCount;i++)
+  for(int i=0; i < this->talkCount; i++)
   {
     talks[i] = Talk();
   }
