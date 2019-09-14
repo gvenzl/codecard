@@ -25,12 +25,21 @@
 #define SPEAKER_EEPROM_ADDR 0
 #define TALKS_EEPROM_ADDR sizeof(struct Speaker)
 
-int updateSpeaker(Speaker speaker);
-Speaker retrieveSpeaker();
-bool isEqualSpeakerStruct(struct Speaker current, struct Speaker stored);
-void printSpeaker(struct Speaker speaker);
 
-int updateTalks(Talks::Talk talks[]);
-Talks::Talk *retrieveTalks();
+class Storage
+{
+  protected:
+    Speaker speaker;
+    bool isEqualSpeakerStruct(struct Speaker current);
+    
+  public:
+    Storage();
+    ~Storage();
+    int updateSpeaker(Speaker speaker);
+    Speaker retrieveSpeaker();
+
+    int updateTalks(Talks::Talk talks[]);
+    Talks::Talk *retrieveTalks();
+};
 
 #endif

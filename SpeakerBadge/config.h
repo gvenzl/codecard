@@ -35,4 +35,7 @@
 // How many talks to support
 #define MAX_TALKS 5
 
+// How much storage is available on EEPROM
+#define EEPROM_SIZE 4096
+
 #endif

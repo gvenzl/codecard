@@ -25,42 +25,42 @@
 #include "speaker.h"
 #include "talks.h"
 
-void printSpeaker(Speaker speaker)
+extern void debugPrintSpeaker(Speaker speaker);
+
+Storage::Storage()
 {
-  Serial.println(F("**************** SPEAKER *****************"));
-  Serial.println("Name: " + speaker.name);
-  Serial.println("Title: " + speaker.title);
-  Serial.println("Company: " + speaker.company);
-  Serial.println("Twitter: " + speaker.twitterHandle);
-  Serial.println("Blog: " + speaker.blogUrl);
-  Serial.println("Youtube: " + speaker.youtubeChannel);
-  Serial.println(F("******************************************"));
+  EEPROM.begin(EEPROM_SIZE);
 }
 
-Speaker retrieveSpeaker()
+Storage::~Storage()
 {
-  Speaker speaker;
+  EEPROM.end();
+}
+
+Speaker Storage::retrieveSpeaker()
+{
   Serial.println(F("DEBUG: Retrieving speaker from EEPROM"));
-  EEPROM.get(SPEAKER_EEPROM_ADDR, speaker);
-  return speaker;
+  EEPROM.get(SPEAKER_EEPROM_ADDR, this->speaker);
+  return this->speaker;
 }
 
 /*
  * 0 --> speaker stored
  * 1 --> speaker equal
  */
-int updateSpeaker(Speaker speaker)
+int Storage::updateSpeaker(Speaker speaker_new)
 {
   Serial.println(F("Updating speaker information..."));
-  Speaker speakerStored = retrieveSpeaker();
+  this->speaker = retrieveSpeaker();
   Serial.println(F("Old stored speaker details:"));
-  printSpeaker(speakerStored);
+  debugPrintSpeaker(this->speaker);
   
   // Only write speaker struct if it is different.
-  if (!isEqualSpeakerStruct(speaker, speakerStored))
+  if (!this->isEqualSpeakerStruct(speaker_new))
   {
     Serial.println(F("DEBUG: Writing speaker to EEPROM"));
-    EEPROM.put(SPEAKER_EEPROM_ADDR, speaker);
+    EEPROM.put(SPEAKER_EEPROM_ADDR, speaker_new);
+    EEPROM.commit();
     return 0;
   }
   else
@@ -70,24 +70,24 @@ int updateSpeaker(Speaker speaker)
   }
 }
 
-bool isEqualSpeakerStruct(struct Speaker current, struct Speaker stored)
+bool Storage::isEqualSpeakerStruct(struct Speaker current)
 {
-  return ( current.name           == stored.name &&
-           current.title          == stored.title &&
-           current.company        == stored.company &&
-           current.twitterHandle  == stored.twitterHandle &&
-           current.blogUrl        == stored.blogUrl &&
-           current.youtubeChannel == stored.youtubeChannel
+  return ( current.name           == this->speaker.name &&
+           current.title          == this->speaker.title &&
+           current.company        == this->speaker.company &&
+           current.twitterHandle  == this->speaker.twitterHandle &&
+           current.blogUrl        == this->speaker.blogUrl &&
+           current.youtubeChannel == this->speaker.youtubeChannel
          );
 }
 
-Talks::Talk *retrieveTalks()
+Talks::Talk *Storage::retrieveTalks()
 {
   Talks::Talk talks[MAX_TALKS];
   return talks;
 }
 
-int updateTalks(Talks::Talk talks[])
+int Storage::updateTalks(Talks::Talk talks[])
 {
   return 0;
 }

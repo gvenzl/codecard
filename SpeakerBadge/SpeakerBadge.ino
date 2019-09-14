@@ -29,6 +29,7 @@
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 CLI cli = CLI();
+Storage storage = Storage();
 
 struct Speaker speaker;
 
@@ -88,6 +89,18 @@ void checkButtonB()
   }
 }
 
+void debugPrintSpeaker(Speaker speaker)
+{
+  Serial.println(F("**************** SPEAKER *****************"));
+  Serial.println("Name: " + speaker.name);
+  Serial.println("Title: " + speaker.title);
+  Serial.println("Company: " + speaker.company);
+  Serial.println("Twitter: " + speaker.twitterHandle);
+  Serial.println("Blog: " + speaker.blogUrl);
+  Serial.println("Youtube: " + speaker.youtubeChannel);
+  Serial.println(F("******************************************"));
+}
+
 void setup()
 {
   // Set the wake pin to HIGH to keep the chip enabled.
@@ -114,9 +127,9 @@ void setup()
   pinMode(BUTTONB_PIN, INPUT_PULLUP);
 
   Serial.println(F("Getting stored speaker details..."));
-  speaker = retrieveSpeaker();
+  speaker = storage.retrieveSpeaker();
   Serial.println(F("DEBUG: Speaker details are:"));
-  printSpeaker(speaker);
+  debugPrintSpeaker(speaker);
   
   // If no speaker stored, fall back to default
   if (speaker.name == "") {
