@@ -6,11 +6,11 @@ The code card runs a [ESP8266](https://en.wikipedia.org/wiki/ESP8266) Wi-fi micr
 The ESP8266 low-cost Wi-Fi microchip comes with full TCP/IP stack and microcontroller capability, produced by manufacturer Espressif Systems.  
 The processor is an L106 32-bit RISC microprocessor core running at 80 MHz, with 4 MiB external QSPI flash. The ESP8266 supports IEEE 802.11 b/g/n Wi-Fi, WEP or WPA/WPA2 authentication, and also supports open networks.  
 
-### Software
+## Software
 In order to customise the Code Card firmware, you need to download the [Arduino IDE](https://www.arduino.cc/en/Main/Software) and configure it to use the Arduino core for ESP8266 WiFi chip.  
 The Arduino core for ESP8266 is a C++ based firmware. With this core, the ESP8266 CPU and its Wi-Fi components can be programmed like any other Arduino device using the Arduino IDE.  
 
-## Instructions
+# Instructions
 The following instruction describes the setup and configuration of the Arduino IDE, and the process to upload firmware to your Code Card using the Arduino IDE:
 
 1. Install the Arduino IDE (version 1.8.8+): https://www.arduino.cc/en/Main/Software
@@ -87,3 +87,8 @@ Hash of data verified.
 Leaving...
 Hard resetting via RTS pin...
 ```
+
+# miscellaneous
+
+[ESP8266 Documentation](http://arduino.esp8266.com/Arduino/versions/2.0.0/doc/libraries.html)
+[ESP8266EX Resources] (https://www.espressif.com/en/products/hardware/esp8266ex/resources)
