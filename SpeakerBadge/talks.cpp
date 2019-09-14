@@ -22,78 +22,14 @@
 
 Talks::Talks()
 {
-  Talk talk = Talk("Cloud-Native", "Data Management","", "Tuesday 17 Sept - 11:30", "Moscone South - Room 301");
+  struct Talk talk = { .title="Cloud-Native", .titleLine2="Data Management", .titleLine3="", .time = "Tuesday 17 Sept - 11:30", .location ="Moscone South - Room 301" };
   addTalk(talk);
 
-  talk = Talk("Code One", "Keynote", "", "Tuesday 17 Sept - 14:30", "Moscone North - Hall F");
+  talk = { .title="Code One", .titleLine2="Keynote", .titleLine3="", .time="Tuesday 17 Sept - 14:30", .location="Moscone North - Hall F" };
   addTalk(talk);
 
-  talk = Talk("Code One", "Community Keynote:", "Game On!", "Wed 18 Sept - 09:00", "Moscone North - Hall F");
+  talk = { .title="Code One", .titleLine2="Community Keynote:", .titleLine3="Game On!", .time="Wed 18 Sept - 09:00", .location="Moscone North - Hall F" };
   addTalk(talk);
-}
-
-Talks::Talk::Talk()
-{
-  
-}
-
-Talks::Talk::Talk(String title, String titleLine2, String titleLine3, String time, String location)
-{
-  this->title = title;
-  this->titleLine2 = titleLine2;
-  this->titleLine3 = titleLine3;
-  this->time= time;
-  this->location = location;
-}
-
-void Talks::Talk::setTitle(String title)
-{
-  this->title = title;
-}
-
-void Talks::Talk::setTitleLine2(String titleLine2)
-{
-  this->titleLine2 = titleLine2;
-}
-
-void Talks::Talk::setTitleLine3(String titleLine3)
-{
-  this->titleLine3 = titleLine3;
-}
-
-void Talks::Talk::setTime(String time)
-{
-  this->time = time;
-}
-
-void Talks::Talk::setLocation(String location)
-{
-  this->location = location;
-}
-
-String Talks::Talk::getTitle()
-{
-  return this->title;
-}
-
-String Talks::Talk::getTitleLine2()
-{
-  return this->titleLine2;
-}
-
-String Talks::Talk::getTitleLine3()
-{
-  return this->titleLine3;
-}
-
-String Talks::Talk::getTime()
-{
-  return this->time;
-}
-
-String Talks::Talk::getLocation()
-{
-  return this->location;
 }
 
 bool Talks::hasFreeTalkSlot()
@@ -101,7 +37,7 @@ bool Talks::hasFreeTalkSlot()
   return talkCount < MAX_TALKS;
 }
 
-bool Talks::addTalk(Talk &talk)
+bool Talks::addTalk(struct Talk talk)
 {
   if (this->talkCount == MAX_TALKS)
   {
@@ -124,7 +60,7 @@ Talks::Talk Talks::getNextTalk()
 
   Serial.println("DEBUG: nextTalkIdx -> " + String(this->nextTalkIdx));
   Talk talk = this->talks[nextTalkIdx];
-  Serial.println("DEBUG: title -> " + talk.getTitle());
+  Serial.println("DEBUG: title -> " + talk.title);
   this->nextTalkIdx++;
     
   return talk;
@@ -144,7 +80,7 @@ bool Talks::deleteAllTalks()
 {
   for(int i=0; i < this->talkCount; i++)
   {
-    talks[i] = Talk();
+    talks[i] = { };
   }
   this->talkCount=0;
   this->nextTalkIdx=0;

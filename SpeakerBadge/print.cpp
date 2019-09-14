@@ -75,20 +75,20 @@ void printTalk(Talks::Talk &talk)
   do
   {
     display.setFont(&FreeMonoBold12pt7b);
-    display.getTextBounds(talk.getTitle(), 0, 0, &tbx, &tby, &tbw, &tbh);
+    display.getTextBounds(talk.title, 0, 0, &tbx, &tby, &tbw, &tbh);
     /* X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
      * X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
      * 20 + is done to gain some more padding from the top
     */
     display.setCursor(tbx, tbh);
-    display.println(talk.getTitle());
-    if (talk.getTitleLine2() != "") { display.println(talk.getTitleLine2()); }
-    if (talk.getTitleLine3() != "") { display.println(talk.getTitleLine3()); }
+    display.println(talk.title);
+    if (talk.titleLine2 != "") { display.println(talk.titleLine2); }
+    if (talk.titleLine3 != "") { display.println(talk.titleLine3); }
     display.println();
     display.setFont(&FreeMono9pt7b);
-    display.println(talk.getTime());
+    display.println(talk.time);
     display.println();
-    display.println(talk.getLocation());
+    display.println(talk.location);
     
   }
   while (display.nextPage());

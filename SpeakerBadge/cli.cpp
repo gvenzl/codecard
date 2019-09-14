@@ -84,35 +84,35 @@ void CLI::addTalk(String input)
     }
     case TalkInput::TITLE:
     {
-      talk.setTitle(input);
+      talk.title = input;
       Serial.println(F("Please add the second line, if any:"));
       talkInput = TalkInput::TITLELINE2;
       break;
     }
     case TalkInput::TITLELINE2:
     {
-      talk.setTitleLine2(input);
+      talk.titleLine2 = input;
       Serial.println(F("Please add the third line, if any:"));
       talkInput = TalkInput::TITLELINE3;
       break;
     }
     case TalkInput::TITLELINE3:
     {
-      talk.setTitleLine3(input);
+      talk.titleLine3 = input;
       Serial.println(F("Please add the date/time of your talk:"));
       talkInput = TalkInput::TIME;
       break;
     }
     case TalkInput::TIME:
     {
-      talk.setTime(input);
+      talk.time = input;
       Serial.println(F("Please add the location of your talk:"));
       talkInput = TalkInput::LOCATION;
       break;
     }
     case TalkInput::LOCATION:
     {
-      talk.setLocation(input);
+      talk.location = input;
       talks.addTalk(talk);
       Serial.println(F("Talk details saved"));
       

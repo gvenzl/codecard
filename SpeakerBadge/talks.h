@@ -26,34 +26,18 @@ class Talks
 {
   public:
   
-    class Talk
+    struct Talk
     {
-      protected:
-        String title;
-        String titleLine2;
-        String titleLine3;
-        String time;
-        String location;
-
-      public:
-        Talk();
-        Talk(String title, String titleLine2, String titleLine3, String time, String location);
-        void setTitle(String title);
-        void setTitleLine2(String titleLine2);
-        void setTitleLine3(String titleLine3);
-        void setTime(String time);
-        void setLocation(String location);
-        
-        String getTitle();
-        String getTitleLine2();
-        String getTitleLine3();
-        String getTime();
-        String getLocation();
-    };
+      String title;
+      String titleLine2;
+      String titleLine3;
+      String time;
+      String location;
+    } talk;
 
     Talks();
     bool hasFreeTalkSlot();
-    bool addTalk(Talk &talk);
+    bool addTalk(struct Talk talk);
     Talk getNextTalk();
     int getTalkCount();
     int getNextTalkIndex();
