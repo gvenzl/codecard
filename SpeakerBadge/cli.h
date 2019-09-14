@@ -44,7 +44,8 @@ class CLI
       TITLELINE2,
       TITLELINE3,
       TIME,
-      LOCATION
+      LOCATION,
+      DELETE
     };
 
     TalkInput talkInput = TalkInput::READ;

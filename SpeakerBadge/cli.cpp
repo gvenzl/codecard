@@ -44,8 +44,8 @@ void CLI::validateInput(String input)
 {
   if      (input == "help")    { printHelp(); }
   else if (speakerInput != SpeakerInput::READ || input == "speaker") { storeSpeaker(input);  }
+  else if (talkInput == TalkInput::DELETE || input == "talkdel") { deleteTalk(input); }
   else if (talkInput != TalkInput::READ || input == "talkadd") { addTalk(input); }
-  else if (input == "talkdel") { deleteTalk(input); }
   else
   {
     Serial.println("'" + input + "' is not a valid command.");
@@ -56,10 +56,10 @@ void CLI::validateInput(String input)
 void CLI::printHelp()
 {
   Serial.println(F("Commands:"));
-  Serial.println(F("  help       Shows this help"));
-  Serial.println(F("  speaker    Adds a new speakers"));
-  Serial.println(F("  talkadd    Adds a new talk to the card"));
-  Serial.println(F("  talkdel    Deletes one or all talks"));
+  Serial.println(F("  help     Shows this help"));
+  Serial.println(F("  speaker  Adds a new speakers"));
+  Serial.println(F("  talkadd  Adds a new talk to the card"));
+  Serial.println(F("  talkdel  Deletes one or all talks"));
   Serial.println();
 }
 
@@ -124,7 +124,7 @@ void CLI::addTalk(String input)
     }
     default:
     {
-      speakerInput = SpeakerInput::READ;
+      talkInput = TalkInput::READ;
       break;
     }
   }
@@ -132,10 +132,54 @@ void CLI::addTalk(String input)
 
 void CLI::deleteTalk(String input)
 {
-  Serial.println(F("Deleting all talks"));
-  talks.deleteAllTalks();
-  
-  btnAState = talks.getTalkCount();
+  switch(talkInput)
+  {
+    case TalkInput::READ:
+    {
+      int count = talks.getTalkCount();
+      // If there is more than one talk, allow which one to delete
+      if (count > 0)
+      {
+        if (count > 1)
+        {
+          Serial.println("There are " + String(talks.getTalkCount()) + " talks stored [1-" + String(talks.getTalkCount()) + "].");
+          Serial.println(F("Please specify which talk you want to delete (0 will delete all talks):"));
+          talkInput = TalkInput::DELETE;
+        }
+        else
+        {
+          Serial.println(F("Deleting talk"));
+          talks.deleteAllTalks();
+        }
+      }
+      break;
+    }
+    case TalkInput::DELETE:
+    {
+      int index = input.toInt();
+      if (index == 0)
+      {
+         Serial.println(F("Deleting all talks"));
+         talks.deleteAllTalks();
+      }
+      else
+      {
+        Serial.println(F("Deleting"));
+        talks.deleteTalk(index-1);
+      }
+      
+      // Reset button A state and talks index to sync
+      btnAState = talks.getNextTalkIndex();
+      
+      talkInput = TalkInput::READ;
+      break;
+    }
+    default:
+    {
+      talkInput = TalkInput::READ;
+      break;
+    }
+  }
 }
 
 void CLI::storeSpeaker(String input)

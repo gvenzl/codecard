@@ -89,5 +89,8 @@ bool Talks::deleteAllTalks()
 
 bool Talks::deleteTalk(int index)
 {
-  return false;
+  //TODO: If in the middle, move talks forward in index
+  // Delete sencond talk, make talk 3 --> 2, 4 --> 3, etc.
+  talks[index] = { };
+  return true;
 }
