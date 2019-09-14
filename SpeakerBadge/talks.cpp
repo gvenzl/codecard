@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-#include "Talks.h"
+#include "talks.h"
 
 #include <Arduino.h>
 
 Talks::Talks()
 {
-  struct Talk talk = { .title="Cloud-Native", .titleLine2="Data Management", .titleLine3="", .time = "Tuesday 17 Sept - 11:30", .location ="Moscone South - Room 301" };
+  Talk talk = { .title="Cloud-Native", .titleLine2="Data Management", .titleLine3="", .time = "Tuesday 17 Sept - 11:30", .location ="Moscone South - Room 301" };
   addTalk(talk);
 
   talk = { .title="Code One", .titleLine2="Keynote", .titleLine3="", .time="Tuesday 17 Sept - 14:30", .location="Moscone North - Hall F" };
@@ -37,7 +37,7 @@ bool Talks::hasFreeTalkSlot()
   return talkCount < MAX_TALKS;
 }
 
-bool Talks::addTalk(struct Talk talk)
+bool Talks::addTalk(Talk talk)
 {
   if (this->talkCount == MAX_TALKS)
   {

@@ -23,6 +23,7 @@
 
 #include "speaker.h"
 #include "talks.h"
+#include "storage.h"
 
 extern Speaker speaker;
 extern Talks talks;
@@ -231,7 +232,7 @@ void CLI::storeSpeaker(String input)
     {
       speaker.youtubeChannel = input;
       // Store speaker object
-      
+      updateSpeaker(speaker);
       Serial.println(F("Speaker details saved."));
       speakerInput = SpeakerInput::READ;
       break;

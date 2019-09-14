@@ -1,5 +1,5 @@
 /*
- * File: Talks.h
+ * File: storage.h
  * 
  * Copyright (c) 2019 Gerald Venzl
  *
@@ -16,39 +16,21 @@
  * limitations under the License.
  */
 
-#ifndef TALKS_H
-#define TALKS_H
+#ifndef STORAGE_H
+#define STORAGE_H
 
-#include <Arduino.h>
-#include "config.h"
+#include "speaker.h"
+#include "talks.h"
 
-class Talks
-{
-  public:
-  
-    struct Talk
-    {
-      String title;
-      String titleLine2;
-      String titleLine3;
-      String time;
-      String location;
-    } talk;
+#define SPEAKER_EEPROM_ADDR 0
+#define TALKS_EEPROM_ADDR sizeof(struct Speaker)
 
-    Talks();
-    bool hasFreeTalkSlot();
-    bool addTalk(Talk talk);
-    Talk getNextTalk();
-    int getTalkCount();
-    int getNextTalkIndex();
-    bool deleteAllTalks();
-    bool deleteTalk(int index);
-    
-  protected:
+int updateSpeaker(Speaker speaker);
+Speaker retrieveSpeaker();
+bool isEqualSpeakerStruct(struct Speaker current, struct Speaker stored);
+void printSpeaker(struct Speaker speaker);
 
-    Talk talks[MAX_TALKS];
-    int talkCount = 0;
-    int nextTalkIdx = 0;
-};
+int updateTalks(Talks::Talk talks[]);
+Talks::Talk *retrieveTalks();
 
 #endif

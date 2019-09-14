@@ -25,18 +25,12 @@
 #include "cli.h"
 #include "speaker.h"
 #include "talks.h"
+#include "storage.h"
 
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 CLI cli = CLI();
 
-struct Speaker speaker = {
-  .name = "Gerald Venzl",
-  .title = "Master Product Manager",
-  .company = "Oracle Corporation",
-  .twitterHandle = "@GeraldVenzl",
-  .blogUrl = "geraldonit.com",
-  .youtubeChannel = "OracleDevs"
-};
+struct Speaker speaker;
 
 Talks talks = Talks();
 int btnAState = talks.getTalkCount(); // Print name first, then talks, hence set button state to last talk
@@ -118,8 +112,26 @@ void setup()
   // Specify both buttons as input --> PULLUP effectively inverts the behavior of the INPUT mode, where HIGH means the sensor is off, and LOW means the sensor is on.
   pinMode(BUTTONA_PIN, INPUT_PULLUP);
   pinMode(BUTTONB_PIN, INPUT_PULLUP);
+
+  Serial.println(F("Getting stored speaker details..."));
+  speaker = retrieveSpeaker();
+  Serial.println(F("DEBUG: Speaker details are:"));
+  printSpeaker(speaker);
   
-  Serial.println(F("Setup done"));
+  // If no speaker stored, fall back to default
+  if (speaker.name == "") {
+    Serial.println(F("Speaker details are empty, defaulting..."));
+    speaker = {
+      .name = "Gerald Venzl",
+      .title = "Master Product Manager",
+      .company = "Oracle Corporation",
+      .twitterHandle = "@GeraldVenzl",
+      .blogUrl = "geraldonit.com",
+      .youtubeChannel = "OracleDevs"
+    };
+  }
+  
+  Serial.println(F("Setup done."));
   Serial.println();
   Serial.println(F("Welcome to Code Card - by Gerald Venzl"));
   
