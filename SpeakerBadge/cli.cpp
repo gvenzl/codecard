@@ -19,6 +19,7 @@
 #include "cli.h"
 
 #include <Arduino.h>
+#include <EEPROM.h>
 
 #include "speaker.h"
 #include "talks.h"
@@ -149,43 +150,44 @@ void CLI::storeSpeaker(String input)
     }
     case SpeakerInput::NAME:
     {
-      speaker.setName(input);
+      speaker.name = input;
       Serial.println(F("Please enter your title:"));
       speakerInput = SpeakerInput::TITLE;
       break;
     }
     case SpeakerInput::TITLE:
     {
-      speaker.setTitle(input);
+      speaker.title = input;
       Serial.println(F("Please enter your company:"));
       speakerInput = SpeakerInput::COMPANY;
       break;
     }
     case SpeakerInput::COMPANY:
     {
-      speaker.setCompany(input);
+      speaker.company = input;
       Serial.println(F("Please enter your Twitter handle:"));
       speakerInput = SpeakerInput::TWITTER;
       break;
     }
     case SpeakerInput::TWITTER:
     {
-      speaker.setTwitterHandle(input);
+      speaker.twitterHandle = input;
       Serial.println(F("Please enter your Blog URL:"));
       speakerInput = SpeakerInput::BLOG;
       break;
     }
     case SpeakerInput::BLOG:
     {
-      speaker.setBlogUrl(input);
+      speaker.blogUrl = input;
       Serial.println(F("Please enter your YouTube channel:"));
       speakerInput = SpeakerInput::YOUTUBE;
       break;
     }
     case SpeakerInput::YOUTUBE:
     {
-      speaker.setYoutubeChannel(input);
+      speaker.youtubeChannel = input;
       // Store speaker object
+      
       Serial.println(F("Speaker details saved."));
       speakerInput = SpeakerInput::READ;
       break;

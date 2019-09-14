@@ -21,34 +21,13 @@
 
 #include <Arduino.h>
 
-class Speaker
-{
-  protected:
-    String name;
-    String title;
-    String company;
-    String twitterHandle;
-    String blogUrl;
-    String youtubeChannel;
-
-  public:
-    Speaker();
-    Speaker(String name, String title, String company);
-    Speaker(String name, String title, String company, String twitterHandle, String blogUrl, String youtubeChannel);
-    
-    void setName(String name);
-    void setTitle(String title);
-    void setCompany(String company);
-    void setTwitterHandle(String twitterHandle);
-    void setBlogUrl(String blogUrl);
-    void setYoutubeChannel(String youtubeChannel);
-
-    String getName();
-    String getTitle();
-    String getCompany();
-    String getTwitterHandle();
-    String getBlogUrl();
-    String getYoutubeChannel();
+struct Speaker {
+  String name;
+  String title;
+  String company;
+  String twitterHandle;
+  String blogUrl;
+  String youtubeChannel;
 };
 
 #endif

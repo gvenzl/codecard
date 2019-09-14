@@ -45,17 +45,17 @@ void printName()
   do
   {
     display.setFont(&FreeMonoBold18pt7b);
-    display.getTextBounds(speaker.getName(), 0, 0, &tbx, &tby, &tbw, &tbh);
+    display.getTextBounds(speaker.name, 0, 0, &tbx, &tby, &tbw, &tbh);
     // X, Y = 0, 0 is the top left corner (given that the display has been already rotated).
     // X is set to 1 (beginning pixles of the text), Y is set to the height of the text as the pixels are printed from the bottom up, not top down
     // 20 + is done to gain some more padding from the top
     display.setCursor(tbx, 20 + tbh);
-    display.println(speaker.getName());
+    display.println(speaker.name);
     display.println();
     display.setFont(&FreeMonoBold9pt7b);
-    display.println(speaker.getTitle());
+    display.println(speaker.title);
     display.println();
-    display.println(speaker.getCompany());
+    display.println(speaker.company);
     
   }
   while (display.nextPage());
@@ -115,46 +115,46 @@ void printContact()
   {
     display.fillScreen(GxEPD_WHITE);
 
-    if (speaker.getTwitterHandle() != "") {
+    if (speaker.twitterHandle != "") {
       // Print Twitter icon
       display.drawInvertedBitmap(0, 0, twitterIcon, 61, 50, GxEPD_BLACK);
 
       // Put handle next to icon
       display.setFont(&FreeMonoBold12pt7b);
-      display.getTextBounds(speaker.getTwitterHandle(), 65, 50, &tbx, &tby, &tbw, &tbh);
+      display.getTextBounds(speaker.twitterHandle, 65, 50, &tbx, &tby, &tbw, &tbh);
       // X, Y = 61, 50 is where the twitter handle has been printed
       // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
       // 10 + is done to gain some more padding from the top
       display.setCursor(tbx, tby);
-      display.println(speaker.getTwitterHandle());
+      display.println(speaker.twitterHandle);
     }
 
-    if (speaker.getBlogUrl() != "") {
+    if (speaker.blogUrl != "") {
       // Print Blog icon
       display.drawInvertedBitmap(0, 55, blogIcon, 60, 60, GxEPD_BLACK);
 
       // Put blog URL next to icon
       display.setFont(&FreeMonoBold12pt7b);
-      display.getTextBounds(speaker.getBlogUrl(), 65, 110, &tbx, &tby, &tbw, &tbh);
+      display.getTextBounds(speaker.blogUrl, 65, 110, &tbx, &tby, &tbw, &tbh);
       // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
       // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
       // 20 + is done to gain some more padding from the top
       display.setCursor(tbx, tby);
-      display.println(speaker.getBlogUrl());
+      display.println(speaker.blogUrl);
     }
 
-    if (speaker.getYoutubeChannel() != "") {
+    if (speaker.youtubeChannel != "") {
       // Print Youtube icon icon
       display.drawInvertedBitmap(0, 120, youtubeIcon, 64, 64, GxEPD_BLACK);
 
       // Put youtube URL next to icon
       display.setFont(&FreeMonoBold12pt7b);
-      display.getTextBounds(speaker.getYoutubeChannel(), 65, 174, &tbx, &tby, &tbw, &tbh);
+      display.getTextBounds(speaker.youtubeChannel, 65, 174, &tbx, &tby, &tbw, &tbh);
       // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
       // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
       // 20 + is done to gain some more padding from the top
       display.setCursor(tbx, tby);
-      display.println(speaker.getYoutubeChannel());
+      display.println(speaker.youtubeChannel);
     }
   }
   while (display.nextPage());
