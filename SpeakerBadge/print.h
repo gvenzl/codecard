@@ -35,4 +35,10 @@ void printContact();
 // Prints the headShot
 void printHeadShot();
 
+// Prints the penguin picture
+void printPenguin();
+
+// Prints the microphone picture
+void printMicrophone();
+
 #endif
