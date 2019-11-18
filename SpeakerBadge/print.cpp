@@ -179,3 +179,39 @@ void printHeadShot()
   
   display.powerOff();
 }
+
+/********************************************************************************************/
+/************************************** PENGUIN PRINT ***************************************/
+/********************************************************************************************/
+
+void printPenguin()
+{
+  display.firstPage();
+  
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+    display.drawInvertedBitmap(0, 0, penguinIcon, display.width(), display.height(), GxEPD_BLACK);
+  }
+  while (display.nextPage());
+  
+  display.powerOff();
+}
+
+/********************************************************************************************/
+/************************************ MICROPHONE PRINT **************************************/
+/********************************************************************************************/
+
+void printMicrophone()
+{
+  display.firstPage();
+  
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+    display.drawInvertedBitmap(0, 0, microphoneIcon, display.width(), display.height(), GxEPD_BLACK);
+  }
+  while (display.nextPage());
+  
+  display.powerOff();
+}
