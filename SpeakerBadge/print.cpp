@@ -163,21 +163,31 @@ void printContact()
 }
 
 /********************************************************************************************/
-/************************************** HEADSHOT PRINT **************************************/
+/**************************************** ICON PRINT ****************************************/
 /********************************************************************************************/
 
-void printHeadShot()
+void printIcon(const unsigned char *icon)
 {
   display.firstPage();
   
   do
   {
     display.fillScreen(GxEPD_WHITE);
-    display.drawInvertedBitmap(0, 0, headShotIcon, display.width(), display.height(), GxEPD_BLACK);
+    display.drawInvertedBitmap(0, 0, icon, display.width(), display.height(), GxEPD_BLACK);
   }
   while (display.nextPage());
   
   display.powerOff();
+}
+
+
+/********************************************************************************************/
+/************************************** HEADSHOT PRINT **************************************/
+/********************************************************************************************/
+
+void printHeadShot()
+{
+  printIcon(headShotIcon);
 }
 
 /********************************************************************************************/
@@ -186,16 +196,7 @@ void printHeadShot()
 
 void printPenguin()
 {
-  display.firstPage();
-  
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.drawInvertedBitmap(0, 0, penguinIcon, display.width(), display.height(), GxEPD_BLACK);
-  }
-  while (display.nextPage());
-  
-  display.powerOff();
+  printIcon(penguinIcon);
 }
 
 /********************************************************************************************/
@@ -204,14 +205,5 @@ void printPenguin()
 
 void printMicrophone()
 {
-  display.firstPage();
-  
-  do
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.drawInvertedBitmap(0, 0, microphoneIcon, display.width(), display.height(), GxEPD_BLACK);
-  }
-  while (display.nextPage());
-  
-  display.powerOff();
+  printIcon(microphoneIcon);
 }

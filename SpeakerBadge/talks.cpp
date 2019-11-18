@@ -25,7 +25,7 @@ Talks::Talks()
   Talk talk = Talk("Die Zukunft der", "Oracle Datenbank", "", "Dienstag 19 Nov - 12:00", "Tokio");
   addTalk(talk);
 
-  talk = Talk("IT Wars:", "Developers vs. DBAs", "(feat. SQLMaria)", "Dienstag 19 Nov - 17:00", "Istanbul");
+  talk = Talk("IT Wars:", "Developers vs. DBAs", "feat. SQL Maria", "Dienstag 19 Nov - 17:00", "Istanbul");
   addTalk(talk);
 
   talk = Talk("Data Management", "in a Microservices", "World", "Mittwoch 20 Nov - 09:00", "Kopenhagen");

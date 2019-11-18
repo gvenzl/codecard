@@ -32,6 +32,9 @@ void printTalk(Talks::Talk &talk);
 // Prints the contact information
 void printContact();
 
+// Prints an icon
+void printIcon(const unsigned char *icon);
+
 // Prints the headShot
 void printHeadShot();
 
