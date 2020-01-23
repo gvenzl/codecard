@@ -33,6 +33,6 @@
 #define PRINT_LANDSCAPE 3
 
 // How many talks to support
-#define MAX_TALKS 5
+#define MAX_TALKS 6
 
 #endif

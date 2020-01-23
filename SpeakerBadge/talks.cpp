@@ -22,14 +22,24 @@
 
 Talks::Talks()
 {
-  Talk talk = Talk("Die Zukunft der", "Oracle Datenbank", "", "Dienstag 19 Nov - 12:00", "Tokio");
+  Talk talk = Talk("Explain the", "explain plan", "", "Milan 29 Jan - 10:05", "Database");
   addTalk(talk);
 
-  talk = Talk("IT Wars:", "Developers vs. DBAs", "feat. SQL Maria", "Dienstag 19 Nov - 17:00", "Istanbul");
+  talk = Talk("Harnessing the", "power of", "optimizer hints", "Milan 29 Jan - 16:05", "Database");
   addTalk(talk);
 
-  talk = Talk("Data Management", "in a Microservices", "World", "Mittwoch 20 Nov - 09:00", "Kopenhagen");
+  talk = Talk("Explain the", "explain plan", "", "Rome 31 Jan - 11:55", "Database");
   addTalk(talk);
+
+  talk = Talk("Harnessing the", "power of", "optimizer hints", "Rome 31 Jan - 15:15", "Database");
+  addTalk(talk);
+
+  talk = Talk("Oracle", "Database 20c", "", "Tel Aviv 3 Feb - 09:15", "Keynote");
+  addTalk(talk);
+
+  talk = Talk("5 things you might", "not know about the", "Oracle Database", "Tel Aviv 4 Feb - 14:00", "");
+  addTalk(talk);
+
 }
 
 Talks::Talk::Talk()

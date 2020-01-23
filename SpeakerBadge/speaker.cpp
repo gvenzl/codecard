@@ -20,13 +20,13 @@
 
 Speaker::Speaker()
 {
-  this->name = "Gerald Venzl";
+  this->name = "Maria Colgan";
   this->title = "Master Product Manager";
   this->company = "Oracle Corporation";
 
-  this->twitterHandle = "@GeraldVenzl";
-  this->blogUrl = "geraldonit.com";
-  this->youtubeChannel = "OracleDevs";
+  this->twitterHandle = "@SQLMaria";
+  this->blogUrl = "sqlmaria.com";
+  this->youtubeChannel = "SQLMaria";
 }
 
 Speaker::Speaker(String name, String title, String company)

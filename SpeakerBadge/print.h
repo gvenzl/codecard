@@ -38,10 +38,4 @@ void printIcon(const unsigned char *icon);
 // Prints the headShot
 void printHeadShot();
 
-// Prints the penguin picture
-void printPenguin();
-
-// Prints the microphone picture
-void printMicrophone();
-
 #endif

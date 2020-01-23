@@ -86,13 +86,6 @@ void checkButtonB()
         btnBState++;
         break;
       }
-      case 2:
-      {
-        Serial.println(F("Printing microphone..."));
-        printMicrophone();
-        btnBState = 0;
-        break;
-      }
       default:  
       {
         Serial.println(F("Default, this shouldn't happen, tell Gerald please!"));
