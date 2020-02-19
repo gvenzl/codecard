@@ -83,13 +83,6 @@ void checkButtonB()
       {
         Serial.println(F("Printing headshot..."));
         printHeadShot();
-        btnBState++;
-        break;
-      }
-      case 2:
-      {
-        Serial.println(F("Printing microphone..."));
-        printMicrophone();
         btnBState = 0;
         break;
       }
