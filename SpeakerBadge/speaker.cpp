@@ -21,7 +21,7 @@
 Speaker::Speaker()
 {
   this->name = "Gerald Venzl";
-  this->title = "Master Product Manager";
+  this->title = "@GeraldVenzl";
   this->company = "Oracle Corporation";
 
   this->twitterHandle = "@GeraldVenzl";
