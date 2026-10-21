@@ -26,12 +26,15 @@
 #include "speaker.h"
 #include "talks.h"
 
+// Global vars
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 CLI cli = CLI();
+
 Speaker speaker = Speaker();
 Talks talks = Talks();
-int btnAState = talks.getTalkCount(); // Print name first, then talks, hence set button state to last talk
-int btnBState = 0;
+int btnAState   = 0;
+int btnBState   = 0;
+int currentTalk = 0;
 
 void initDisplay()
 {
@@ -42,24 +45,107 @@ void initDisplay()
   display.setFullWindow();
 }
 
+void initSpeaker()
+{
+  speaker.setName("Gerald Venzl");
+  speaker.setTitle("VP, Dev & AI Initiatives");
+  speaker.setCompany("Oracle AI Database");
+  speaker.setBlogUrl("GeraldOnIT.com");
+  speaker.setLinkedInHandle("GeraldVenzl");
+  speaker.setBlueSkyHandle("gvenzl");
+  speaker.setTwitterHandle("@GeraldVenzl");
+  speaker.setYoutubeChannel("GeraldOnIT");
+}
+
+void initTalks()
+{
+  Talks::Talk talk;
+
+  talk = Talks::Talk("Oracle User Groups", "Leader Reception", "", "Oct 25 - 19:00-21:00", "Buddy V's Ristorante");
+  talks.addTalk(talk);
+
+  talk = Talks::Talk("Oracle ACE", "Souvenir Exchange", "", "Oct 26 - 16:00-17:00", "ACE Hub");
+  talks.addTalk(talk);
+
+  talk = Talks::Talk("Oracle ACE", "Reception", "", "Oct 27 - 18:00-21:00", "Mercato Della Pescheria");
+  talks.addTalk(talk);
+
+  talk = Talks::Talk("Global Leaders", "Customer Event", "", "Oct 28 - 13:00-20:00", "Ghostbar");
+  talks.addTalk(talk);
+
+  talk = Talks::Talk("Oracle ACE", "Adventure", "", "Oct 29 - 07:45-14:00", "Hoover Dam");
+  talks.addTalk(talk);
+}
+
 void checkButtonA()
 {
   if (digitalRead(BUTTONA_PIN) == HIGH)
   {
     Serial.println(F("State of Button A has changed!"));
 
-    if (btnAState == talks.getTalkCount())
+    // Change button B back to 0
+    btnBState = 0;
+
+    switch (btnAState)
     {
-      Serial.println(F("Printing name"));
-      printName();
-      btnAState=0;
-    }
-    else
-    {
-      Serial.println(F("Printing Session..."));
-      Talks::Talk talk = talks.getNextTalk();
-      printTalk(talk);
-      btnAState++;
+      case 0:
+      {
+        Serial.println(F("Printing name..."));
+        printName();
+        btnAState++;
+        break;
+      }
+
+      case 1:
+      {
+        Serial.println(F("Printing LinkedIn QR code..."));
+        printLinkedInQRCode();
+        btnAState++;
+        break;
+      }
+
+      case 2:
+      {
+        Serial.println(F("Printing Headshot..."));
+        printHeadShot();
+        btnAState++;
+        break;
+      }
+
+      case 3:
+      {
+        Serial.println(F("Printing next talk..."));
+        Serial.println("DEBUG: TalkCount: " + String(talks.getTalkCount()));
+        Serial.println("DEBUG: currentTalk: " + String(currentTalk));
+        Serial.println("DEBUG: nextTalkIndex: " + String(talks.getNextTalkIndex()));
+
+        if (talks.getTalkCount() > 0 && (currentTalk < (talks.getNextTalkIndex()+1)) )
+        {
+          Serial.println(F("Printing next talk..."));
+          Talks::Talk talk = talks.getNextTalk();
+          printTalk(talk);
+          currentTalk++;
+          // No bntAState increase, we are still in the Talk printing
+        }
+        else
+        {
+          Serial.println(F("No talk found, printing name and skipping case 0"));
+          printName();
+          currentTalk=0;
+          btnAState = 1;
+        }
+        break;
+      }
+
+      default:
+      {
+        Serial.println(F("Default, this shouldn't happen, tell Gerald please!"));
+        Serial.println(F("Printing headshot..."));
+        printHeadShot();
+        btnAState = 0;
+        currentTalk=0;
+        break;
+      }
     }
   }
 }
@@ -70,6 +156,10 @@ void checkButtonB()
   {
     Serial.println(F("State of Button B has changed!"));
 
+    // Change button A and current talks back to 0
+    btnAState = 0;
+    currentTalk=0;
+
     switch (btnBState)
     {
       case 0:
@@ -79,13 +169,31 @@ void checkButtonB()
         btnBState++;
         break;
       }
+
       case 1:
       {
-        Serial.println(F("Printing headshot..."));
-        printHeadShot();
+        Serial.println(F("Printing ACE Logo..."));
+        printACELogo();
+        btnBState++;
+        break;
+      }
+
+      case 2:
+      {
+        Serial.println(F("Printing ace.oracle.com..."));
+        printText("ace.oracle.com", 12);
+        btnBState++;
+        break;
+      }
+
+      case 3:
+      {
+        Serial.println(F("Printing OUG website..."));
+        printText("oracle.com/user-groups");
         btnBState = 0;
         break;
       }
+
       default:  
       {
         Serial.println(F("Default, this shouldn't happen, tell Gerald please!"));
@@ -112,6 +220,12 @@ void setup()
   
   // Initialize Display
   initDisplay();
+
+  // Initalize speaker data
+  initSpeaker();
+
+  // Initialize Talks
+  initTalks();
 
   // Print headshot as setup / standby picture
   Serial.println(F("Printing headshot..."));

@@ -32,7 +32,9 @@ class CLI
       COMPANY,
       TWITTER,
       BLOG,
-      YOUTUBE
+      YOUTUBE,
+      BLUESKY,
+      LINKEDIN
     };
 
     SpeakerInput speakerInput = SpeakerInput::READ;

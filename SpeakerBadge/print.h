@@ -38,6 +38,15 @@ void printIcon(const unsigned char *icon);
 // Prints the headShot
 void printHeadShot();
 
+// Prints LinkedIn QR code
+void printLinkedInQRCode();
+
+// Prints a text (font sizes 9 (default), 12, 18)
+void printText(String text, int fontSize=9);
+
+// Prints ACE logo
+void printACELogo();
+
 // Prints the penguin picture
 void printPenguin();
 

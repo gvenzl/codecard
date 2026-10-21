@@ -20,13 +20,6 @@
 
 Speaker::Speaker()
 {
-  this->name = "Gerald Venzl";
-  this->title = "@GeraldVenzl";
-  this->company = "Oracle Corporation";
-
-  this->twitterHandle = "@GeraldVenzl";
-  this->blogUrl = "geraldonit.com";
-  this->youtubeChannel = "OracleDevs";
 }
 
 Speaker::Speaker(String name, String title, String company)
@@ -36,13 +29,15 @@ Speaker::Speaker(String name, String title, String company)
   this->company = company;
 }
 
-Speaker::Speaker(String name, String title, String company, String twitterHandle, String blogUrl, String youtubeChannel)
+Speaker::Speaker(String name, String title, String company, String blogUrl, String linkedInHandle, String blueSkyHandle, String twitterHandle, String youtubeChannel)
 {
   this->name = name;
   this->title = title;
   this->company = company;
-  this->twitterHandle = twitterHandle;
   this->blogUrl = blogUrl;
+  this->linkedInHandle = linkedInHandle;
+  this->blueSkyHandle = blueSkyHandle;
+  this->twitterHandle = twitterHandle;
   this->youtubeChannel = youtubeChannel;
 }
 
@@ -64,6 +59,16 @@ void Speaker::setCompany(String company)
 void Speaker::setTwitterHandle(String twitterHandle)
 {
   this->twitterHandle = twitterHandle;
+}
+
+void Speaker::setLinkedInHandle(String linkedInHandle)
+{
+  this->linkedInHandle = linkedInHandle;
+}
+
+void Speaker::setBlueSkyHandle(String blueSkyHandle)
+{
+  this->blueSkyHandle = blueSkyHandle;
 }
 
 void Speaker::setBlogUrl(String blogUrl)
@@ -94,6 +99,16 @@ String Speaker::getCompany()
 String Speaker::getTwitterHandle()
 {
   return this->twitterHandle;
+}
+
+String Speaker::getLinkedInHandle()
+{
+  return this->linkedInHandle;
+}
+
+String Speaker::getBlueSkyHandle()
+{
+  return this->blueSkyHandle;
 }
 
 String Speaker::getBlogUrl()

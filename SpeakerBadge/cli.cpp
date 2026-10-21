@@ -41,10 +41,10 @@ void CLI::read()
 
 void CLI::validateInput(String input)
 {
-  if      (input == "help")    { printHelp(); }
-  else if (speakerInput != SpeakerInput::READ || input == "speaker") { storeSpeaker(input);  }
-  else if (talkInput != TalkInput::READ || input == "talkadd") { addTalk(input); }
-  else if (input == "talkdel") { deleteTalk(input); }
+  if      (input == "help")                                          { printHelp(); }
+  else if (speakerInput != SpeakerInput::READ || input == "speaker") { storeSpeaker(input); }
+  else if (talkInput    != TalkInput::READ    || input == "talkadd") { addTalk(input); }
+  else if (input == "talkdel")                                       { deleteTalk(input); }
   else
   {
     Serial.println("'" + input + "' is not a valid command.");
@@ -164,15 +164,8 @@ void CLI::storeSpeaker(String input)
     case SpeakerInput::COMPANY:
     {
       speaker.setCompany(input);
-      Serial.println(F("Please enter your Twitter handle:"));
-      speakerInput = SpeakerInput::TWITTER;
-      break;
-    }
-    case SpeakerInput::TWITTER:
-    {
-      speaker.setTwitterHandle(input);
       Serial.println(F("Please enter your Blog URL:"));
-      speakerInput = SpeakerInput::BLOG;
+      speakerInput = SpeakerInput::LINKEDIN;
       break;
     }
     case SpeakerInput::BLOG:
@@ -185,8 +178,28 @@ void CLI::storeSpeaker(String input)
     case SpeakerInput::YOUTUBE:
     {
       speaker.setYoutubeChannel(input);
-      // Store speaker object
-      Serial.println(F("Speaker details saved."));
+      Serial.println(F("Please enter your LinkedIn handle"));
+      speakerInput = SpeakerInput::LINKEDIN;
+      break;
+    }
+    case SpeakerInput::LINKEDIN:
+    {
+      speaker.setLinkedInHandle(input);
+      Serial.println(F("Please enter your BlueSky handle:"));
+      speakerInput = SpeakerInput::BLUESKY;
+      break;
+    }
+    case SpeakerInput::BLUESKY:
+    {
+      speaker.setBlueSkyHandle(input);
+      Serial.println(F("Please enter your Twitter handle:"));
+      speakerInput = SpeakerInput::TWITTER;
+      break;
+    }
+    case SpeakerInput::TWITTER:
+    {
+      speaker.setTwitterHandle(input);
+      Serial.println(F("Detailed saved."));
       speakerInput = SpeakerInput::READ;
       break;
     }

@@ -22,8 +22,6 @@
 
 Talks::Talks()
 {
-  Talk talk = Talk("Supercharge your", "Code to get Optimal", "DB Performance", "Thursday 20 Feb - 14:10", "Room 404");
-  addTalk(talk);
 
 }
 
@@ -111,17 +109,17 @@ bool Talks::addTalk(Talk &talk)
 
 Talks::Talk Talks::getNextTalk()
 {
+  Serial.println("DEBUG: nextTalkIdx -> " + String(this->nextTalkIdx));
+  Talk talk = this->talks[nextTalkIdx];
+  Serial.println("DEBUG: title -> " + talk.getTitle());
+  this->nextTalkIdx++;
+
   // Round robin talks, start again from first talk
   if (this->nextTalkIdx >= this->talkCount)
   {
     this->nextTalkIdx = 0;
   }
 
-  Serial.println("DEBUG: nextTalkIdx -> " + String(this->nextTalkIdx));
-  Talk talk = this->talks[nextTalkIdx];
-  Serial.println("DEBUG: title -> " + talk.getTitle());
-  this->nextTalkIdx++;
-    
   return talk;
 }
 

@@ -47,7 +47,7 @@ void printName()
     display.setFont(&FreeMonoBold18pt7b);
     display.getTextBounds(speaker.getName(), 0, 0, &tbx, &tby, &tbw, &tbh);
     // X, Y = 0, 0 is the top left corner (given that the display has been already rotated).
-    // X is set to 1 (beginning pixles of the text), Y is set to the height of the text as the pixels are printed from the bottom up, not top down
+    // X is set to 0 (beginning pixles of the text), Y is set to the height of the text as the pixels are printed from the bottom up, not top down
     // 20 + is done to gain some more padding from the top
     display.setCursor(tbx, 20 + tbh);
     display.println(speaker.getName());
@@ -76,10 +76,7 @@ void printTalk(Talks::Talk &talk)
   {
     display.setFont(&FreeMonoBold12pt7b);
     display.getTextBounds(talk.getTitle(), 0, 0, &tbx, &tby, &tbw, &tbh);
-    /* X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
-     * X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-     * 20 + is done to gain some more padding from the top
-    */
+    // X, Y = 0, 0 is the top left corner (given that the display has been already rotated.
     display.setCursor(tbx, tbh);
     display.println(talk.getTitle());
     if (talk.getTitleLine2() != "") { display.println(talk.getTitleLine2()); }
@@ -96,37 +93,30 @@ void printTalk(Talks::Talk &talk)
   display.powerOff();
 }
 
-/*
-void printSession()
-{
-  printSessionTemplate("Monday June 24 - 11:00AM", "Room 620, Level 6", "Decrypting the", "Tech Hype", "for the Busy Coder");
-}
-*/
 
 /********************************************************************************************/
-/************************************** CONTACT PRINT ***************************************/
+/***************************************** CONTACT ******************************************/
 /********************************************************************************************/
 
 void printContact()
 {
   display.firstPage();
-  
   do
   {
     display.fillScreen(GxEPD_WHITE);
 
-    if (speaker.getTwitterHandle() != "") {
+    if (speaker.getLinkedInHandle() != "") {
       // Print Twitter icon
-      display.drawInvertedBitmap(0, 0, twitterIcon, 61, 50, GxEPD_BLACK);
+      display.drawInvertedBitmap(0, 0, linkedInIcon, 50, 50, GxEPD_BLACK);
 
       // Put handle next to icon
       display.setFont(&FreeMonoBold12pt7b);
-      display.getTextBounds(speaker.getTwitterHandle(), 65, 50, &tbx, &tby, &tbw, &tbh);
-      // X, Y = 61, 50 is where the twitter handle has been printed
-      // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-      // 10 + is done to gain some more padding from the top
+      display.getTextBounds(speaker.getLinkedInHandle(), 65, 48, &tbx, &tby, &tbw, &tbh);
+      // X, Y = 50, 50 is where the LinkedIn handle has been printed
+      // X is set to + 15 = 65 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
+      // Y is set to + 5 = 55
       display.setCursor(tbx, tby);
-      display.println(speaker.getTwitterHandle());
+      display.println(speaker.getLinkedInHandle());
     }
 
     if (speaker.getBlogUrl() != "") {
@@ -136,9 +126,8 @@ void printContact()
       // Put blog URL next to icon
       display.setFont(&FreeMonoBold12pt7b);
       display.getTextBounds(speaker.getBlogUrl(), 65, 110, &tbx, &tby, &tbw, &tbh);
-      // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
+      // X, Y = 65, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
       // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-      // 20 + is done to gain some more padding from the top
       display.setCursor(tbx, tby);
       display.println(speaker.getBlogUrl());
     }
@@ -149,10 +138,9 @@ void printContact()
 
       // Put youtube URL next to icon
       display.setFont(&FreeMonoBold12pt7b);
-      display.getTextBounds(speaker.getYoutubeChannel(), 65, 174, &tbx, &tby, &tbw, &tbh);
-      // X, Y = 60, 110 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
+      display.getTextBounds(speaker.getYoutubeChannel(), 70, 172, &tbx, &tby, &tbw, &tbh);
+      // X, Y = 70, 172 is where the text should be printen (110 = 50 from the twitter icon and 60 from the blog icon)
       // X is set to 1 (beginning pixles of the text, Y is set to the height of the text as the pixels are printed from the bottom up, not top down)
-      // 20 + is done to gain some more padding from the top
       display.setCursor(tbx, tby);
       display.println(speaker.getYoutubeChannel());
     }
@@ -163,7 +151,42 @@ void printContact()
 }
 
 /********************************************************************************************/
-/**************************************** ICON PRINT ****************************************/
+/*************************************** Print text *****************************************/
+/********************************************************************************************/
+
+void printText(String text, int fontSize)
+{
+  display.firstPage();
+  do
+  {
+    if (fontSize == 9)
+    {
+      display.setFont(&FreeMonoBold9pt7b);
+    }
+    else if (fontSize == 12)
+    {
+      display.setFont(&FreeMonoBold12pt7b);
+    }
+    else if (fontSize == 18)
+    {
+      display.setFont(&FreeMonoBold18pt7b);
+    }
+    else
+    {
+      display.setFont(&FreeMonoBold12pt7b);
+    }
+    display.getTextBounds(text, 10, 100, &tbx, &tby, &tbw, &tbh);
+    // X, Y = 10, 100 is the middle of the page with 10px to the right for padding
+    display.setCursor(tbx, tby);
+    display.println(text);
+  }
+  while (display.nextPage());
+
+  display.powerOff();
+}
+
+/********************************************************************************************/
+/******************************************* ICON *******************************************/
 /********************************************************************************************/
 
 void printIcon(const unsigned char *icon)
@@ -182,7 +205,7 @@ void printIcon(const unsigned char *icon)
 
 
 /********************************************************************************************/
-/************************************** HEADSHOT PRINT **************************************/
+/***************************************** HEADSHOT *****************************************/
 /********************************************************************************************/
 
 void printHeadShot()
@@ -191,7 +214,25 @@ void printHeadShot()
 }
 
 /********************************************************************************************/
-/************************************** PENGUIN PRINT ***************************************/
+/**************************************** ACE LOGO ******************************************/
+/********************************************************************************************/
+
+void printACELogo()
+{
+  printIcon(aceLogo);
+}
+
+/********************************************************************************************/
+/************************************ LINKED IN QR CODE *************************************/
+/********************************************************************************************/
+
+void printLinkedInQRCode()
+{
+  printIcon(linkedInQRCode);
+}
+
+/********************************************************************************************/
+/************************************** PENGUIN *********************************************/
 /********************************************************************************************/
 
 void printPenguin()
@@ -200,7 +241,7 @@ void printPenguin()
 }
 
 /********************************************************************************************/
-/************************************ MICROPHONE PRINT **************************************/
+/************************************* MICROPHONE *******************************************/
 /********************************************************************************************/
 
 void printMicrophone()

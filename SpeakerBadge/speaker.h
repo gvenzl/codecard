@@ -27,6 +27,8 @@ class Speaker
     String name;
     String title;
     String company;
+    String linkedInHandle;
+    String blueSkyHandle;
     String twitterHandle;
     String blogUrl;
     String youtubeChannel;
@@ -34,12 +36,14 @@ class Speaker
   public:
     Speaker();
     Speaker(String name, String title, String company);
-    Speaker(String name, String title, String company, String twitterHandle, String blogUrl, String youtubeChannel);
+    Speaker(String name, String title, String company, String blogUrl, String linkedInHandle, String blueSkyHandle, String twitterHandle, String youtubeChannel);
     
     void setName(String name);
     void setTitle(String title);
     void setCompany(String company);
     void setTwitterHandle(String twitterHandle);
+    void setLinkedInHandle(String linkedInHandle);
+    void setBlueSkyHandle(String blueSkyHandle);
     void setBlogUrl(String blogUrl);
     void setYoutubeChannel(String youtubeChannel);
 
@@ -47,6 +51,8 @@ class Speaker
     String getTitle();
     String getCompany();
     String getTwitterHandle();
+    String getLinkedInHandle();
+    String getBlueSkyHandle();
     String getBlogUrl();
     String getYoutubeChannel();
 };
